@@ -74,7 +74,11 @@ namespace StarterAssets
 
 		private const float _threshold = 0.01f;
 
-		private bool IsCurrentDeviceMouse
+        bool cursorLock = false;
+        //DEBUG ONLY, Delete in build version
+
+
+        private bool IsCurrentDeviceMouse
 		{
 			get
 			{
@@ -115,11 +119,29 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+            if (cursorLock)
+            {
+
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                cursorLock = !cursorLock;
+            }
+
 		}
 
 		private void LateUpdate()
 		{
-			CameraRotation();
+            if (cursorLock)
+            { CameraRotation(); }
 		}
 
 		private void GroundedCheck()
